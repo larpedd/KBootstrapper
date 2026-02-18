@@ -17,18 +17,18 @@ mod utils;
 #[tokio::main]
 async fn main() {
     let font = FIGfont::from_content(include_str!("../assets/alligator.flf")).unwrap();
-    let figlet_text = font.convert("Pekora").unwrap().to_string();
+    let figlet_text = font.convert("Korone").unwrap().to_string();
     let mut stdout = StandardStream::stdout(ColorChoice::Auto);
     stdout
-        .set_color(ColorSpec::new().set_fg(Some(Color::Blue)))
+        .set_color(ColorSpec::new().set_fg(Some(Color::White)))
         .unwrap();
     write!(&mut stdout, "{figlet_text}").unwrap();
     stdout.reset().unwrap();
     println!();
     stdout
-        .set_color(ColorSpec::new().set_fg(Some(Color::Blue)).set_dimmed(true))
+        .set_color(ColorSpec::new().set_fg(Some(Color::Yellow)).set_dimmed(true))
         .unwrap();
-    write!(&mut stdout, "pekora.rip").unwrap();
+    write!(&mut stdout, "pekora.zip").unwrap();
     stdout.reset().unwrap();
     println!();
 
@@ -42,7 +42,7 @@ async fn main() {
             println!("Press enter to exit");
             let _ = io::stdin().read_line(&mut String::new());
         }
-        Some(x) if x.starts_with("pekora2-player") => {
+        Some(x) if x.starts_with("pekora-player") => {
             if let Err(err) = launcher::launch(&x).await {
                 paris::error!("Error while launching: {err:?}");
                 println!("Press enter to exit");
@@ -53,7 +53,7 @@ async fn main() {
             }
         }
         _ => {
-            paris::error!("Unknown argument(s). Pass 0 arguments to install or update Pekora.");
+            paris::error!("Unknown argument(s). Pass 0 arguments to install or update Korone.");
             thread::sleep(Duration::from_secs(5));
         }
     }
