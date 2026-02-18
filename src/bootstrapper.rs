@@ -55,7 +55,7 @@ pub async fn bootstrap() -> Result<()> {
         open::that(POST_INSTALL_URL)?;
         return Ok(());
     }
-    paris::info!("Updating Pekora");
+    paris::info!("Updating Korone Clients...");
     //TODO: Change versioning since korone dont use this anymore.
     /*let years = client
         .get(format!("{SETUP}/available-years.txt"))
@@ -139,7 +139,7 @@ pub async fn bootstrap() -> Result<()> {
     let launcher_path = install_dir.join("PekoraLauncher.exe");
     let _ = fs::copy(current_exe()?, &launcher_path);
     paris::info!("Setting up URI handler");
-    utils::register_uri("pekora2-player", &launcher_path)
+    utils::register_uri("pekora-player", &launcher_path)
         .map_err(|e| anyhow!("Error registering URI: {e}"))?;
     paris::success!("Bootstrap finished");
     Ok(())
