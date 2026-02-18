@@ -6,7 +6,7 @@ use std::{
 };
 
 use crate::{
-    config::{POST_INSTALL_URL, SETUP},
+    config::{POST_INSTALL_URL, SETUP, YEARS},
     utils,
 };
 use anyhow::Result;
