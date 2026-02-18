@@ -35,7 +35,7 @@ jobs:
         name: Release ${{ github.ref_name }}
         draft: false
         prerelease: false
-        files: ./target/x86_64-pc-windows-gnu/release/pekora-bootstrapper.exe
+        files: ./target/x86_64-pc-windows-gnu/release/*-bootstrapper.exe
         overwrite: true
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
