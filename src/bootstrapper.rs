@@ -6,7 +6,7 @@ use std::{
 };
 
 use crate::{
-    config::{POST_INSTALL_URL, SETUP, YEARS},
+    config::{POST_INSTALL_URL, URI, SETUP, YEARS},
     utils,
 };
 use anyhow::Result;
@@ -23,7 +23,7 @@ pub async fn is_up_to_update() -> Result<(bool, String)> {
         .text()
         .await?;
     let local_appdata = env::var("LOCALAPPDATA")?;
-    let install_dir = PathBuf::from(local_appdata).join("Pekora2");
+    let install_dir = PathBuf::from(local_appdata).join("Korone");
     if fs::read_to_string(install_dir.join("version"))
         .map(|x| x == latest_version)
         .unwrap_or(false)
@@ -136,10 +136,10 @@ pub async fn bootstrap() -> Result<()> {
     paris::success!("All available clients installed");
     let _ = fs::write("version", latest_version);
     paris::info!("Copying self to folder");
-    let launcher_path = install_dir.join("PekoraLauncher.exe");
+    let launcher_path = install_dir.join("Launcher.exe");
     let _ = fs::copy(current_exe()?, &launcher_path);
     paris::info!("Setting up URI handler");
-    utils::register_uri("pekora-player", &launcher_path)
+    utils::register_uri(URI, &launcher_path)
         .map_err(|e| anyhow!("Error registering URI: {e}"))?;
     paris::success!("Bootstrap finished");
     Ok(())
