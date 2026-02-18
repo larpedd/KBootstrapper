@@ -37,7 +37,6 @@ pub async fn is_up_to_update() -> Result<(bool, String)> {
 #[allow(clippy::too_many_lines, reason = "code is more readable as it is")]
 pub async fn bootstrap() -> Result<()> {
     let client = Client::new();
-    //TODO: Change versioning since korone dont use this anymore.
     let latest_version = client
         .get(format!("{SETUP}/version"))
         .send()
@@ -57,13 +56,15 @@ pub async fn bootstrap() -> Result<()> {
         return Ok(());
     }
     paris::info!("Updating Pekora");
-    let years = client
+    //TODO: Change versioning since korone dont use this anymore.
+    /*let years = client
         .get(format!("{SETUP}/available-years.txt"))
         .send()
         .await?
         .text()
         .await?;
-    for year in years.split('\n') {
+    */
+    for year in &YEARS {
         paris::info!("Downloading {year} client");
         let client = client
             .get(format!("{SETUP}/{latest_version}-ProjectXApp{year}.zip"))
