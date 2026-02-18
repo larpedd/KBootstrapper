@@ -4,6 +4,9 @@ use std::process::Command;
 use anyhow::Result;
 
 use crate::bootstrapper;
+use crate::{
+    config::{URI}
+};
 
 struct Args {
     _launch_mode: String,
@@ -18,10 +21,10 @@ pub async fn launch(uri: &str) -> Result<()> {
         paris::info!("Out ouf date, updating");
         bootstrapper::bootstrap().await?;
     }
-    if !uri.starts_with("pekora-player:") {
+    if !uri.starts_with(!format("{URI}:")) {
         anyhow::bail!("Invalid URI");
     }
-    let re = regex::Regex::new(r"pekora-player:1\+launchmode:([^+]+)\+clientversion:([^+]+)\+gameinfo:([^+]+)\+placelauncherurl:([^+]+)").unwrap();
+    let re = regex::Regex::new(r":1\+launchmode:([^+]+)\+clientversion:([^+]+)\+gameinfo:([^+]+)\+placelauncherurl:([^+]+)").unwrap();
     let captures = re
         .captures(uri)
         .ok_or_else(|| anyhow::anyhow!("Invalid URI format"))?;
@@ -44,12 +47,12 @@ pub async fn launch(uri: &str) -> Result<()> {
     )
     .arg("--play")
     .arg("-a")
-    .arg("https://www.pekora.zip/Login/Negotiate.ashx")
+    .arg("https://www.pekora.zip/Login/Negotiate.ashx") //TODO: Add and change url to rely on config.rs
     .arg("-t")
     .arg(args.game_info)
     .arg("-j")
     .arg(args.place_launcher_url)
     .spawn()?;
-    paris::success!("Started Pekora");
+    paris::success!("Started Client");
     Ok(())
 }
