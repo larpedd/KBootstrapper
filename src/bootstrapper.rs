@@ -37,6 +37,7 @@ pub async fn is_up_to_update() -> Result<(bool, String)> {
 #[allow(clippy::too_many_lines, reason = "code is more readable as it is")]
 pub async fn bootstrap() -> Result<()> {
     let client = Client::new();
+    //TODO: Change versioning since korone dont use this anymore.
     let latest_version = client
         .get(format!("{SETUP}/version"))
         .send()
@@ -44,7 +45,7 @@ pub async fn bootstrap() -> Result<()> {
         .text()
         .await?;
     let local_appdata = env::var("LOCALAPPDATA")?;
-    let install_dir = PathBuf::from(local_appdata).join("Pekora2");
+    let install_dir = PathBuf::from(local_appdata).join("Pekora");
     fs::create_dir_all(&install_dir)?;
     env::set_current_dir(&install_dir)?;
     if fs::read_to_string("version")
